@@ -1,0 +1,41 @@
+From: Sav <62543096+dongioia@users.noreply.github.com>
+Subject: [PATCH] media: rkvdec: disable VP9 on VDPU381 (NULL ptr crash)
+
+Out-of-tree VP9 VDPU381 code (D.V.A.B. Sarma) causes NULL pointer
+dereference in rkvdec_vp9_start when used with V4L2_MEMORY_DMABUF.
+Disable VP9 in vdpu381_coded_fmts until upstream support lands.
+
+H.264 and HEVC remain functional (upstream, Collabora).
+VP9 still available via hantro at lower performance.
+
+Signed-off-by: Sav <62543096+dongioia@users.noreply.github.com>
+---
+ drivers/media/platform/rockchip/rkvdec/rkvdec.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+index abcdef..123456 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+@@ -569,20 +569,8 @@ static const struct rkvdec_coded_fmt_desc vdpu381_coded_fmts[] = {
+ 		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
+ 	},
+-	{
+-		.fourcc = V4L2_PIX_FMT_VP9_FRAME,
+-		.frmsize = {
+-			.min_width = 64,
+-			.max_width = 65472,
+-			.step_width = 64,
+-			.min_height = 64,
+-			.max_height = 65472,
+-			.step_height = 64,
+-		},
+-		.ctrls = &vdpu381_vp9_ctrls,
+-		.ops = &rkvdec_vdpu381_vp9_fmt_ops,
+-		.num_decoded_fmts = ARRAY_SIZE(rkvdec_vp9_decoded_fmts),
+-		.decoded_fmts = rkvdec_vp9_decoded_fmts,
+-		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
+-	},
++	/* VP9 VDPU381 disabled: out-of-tree code with NULL ptr crash.
++	 * VP9 HW decode still available via hantro. */
+ };

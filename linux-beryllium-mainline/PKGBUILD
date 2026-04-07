@@ -23,7 +23,7 @@ source=("git+https://github.com/beryllium-org/linux-beryllium.git#branch=7.0.y"
         '0002-drm-bridge-connector-detect_ctx.patch'
         '0003-drm-dw-hdmi-qp-scdc-scrambling.patch'
         '0004-drm-rockchip-hpd-event-optimization.patch'
-        '0005-media-rkvdec2-vp9-vdpu381.patch')
+        '0005-rkvdec-disable-vp9-vdpu381.patch')
 md5sums=('SKIP'
          'SKIP'
          'SKIP'
@@ -48,8 +48,8 @@ prepare() {
   patch -Np1 -i "$srcdir/0002-drm-bridge-connector-detect_ctx.patch" || true
   patch -Np1 -i "$srcdir/0003-drm-dw-hdmi-qp-scdc-scrambling.patch" || true
   patch -Np1 -i "$srcdir/0004-drm-rockchip-hpd-event-optimization.patch" || true
-  # VP9 hardware decoder (VDPU381)
-  patch -Np1 -i "$srcdir/0005-media-rkvdec2-vp9-vdpu381.patch" || true
+  # Disable VP9 on VDPU381 (NULL ptr crash with DMABUF — upstream VP9 not ready)
+  patch -Np1 -i "$srcdir/0005-rkvdec-disable-vp9-vdpu381.patch" || true
   # GPU OPP voltage fix is already in the kernel tree as DTS overlay
 
   cp ${srcdir}/config .config
