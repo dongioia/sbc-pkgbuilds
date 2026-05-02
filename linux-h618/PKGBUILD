@@ -11,7 +11,7 @@ arch=('aarch64')
 license=('GPL2')
 url="https://github.com/beryllium-org/linux-beryllium"
 pkgdesc="The Linux Kernel and modules"
-makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'uboot-tools' 'vboot-utils' 'dtc' 'cpio')
+makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'uboot-tools' 'dtc' 'cpio')
 options=('!strip' 'ccache')
 source=(git+https://github.com/beryllium-org/linux-beryllium.git#branch=h618-6.1.y
         'linux.preset'
