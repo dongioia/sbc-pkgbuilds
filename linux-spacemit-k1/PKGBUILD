@@ -1,4 +1,4 @@
-# Maintainer: Panda <panda@bredos.org>
+# Maintainer: Bill Sideris <bill88t@feline.gr>
 
 cross_compile=1
 
@@ -6,16 +6,16 @@ pkgbase=linux-spacemit-k1
 _kernel=${pkgbase}
 pkgname=("${pkgbase}-headers" "$pkgbase")
 pkgver=6.17.0
-pkgrel=1
+pkgrel=4
 _desc="Linux ${pkgver} for boards with Spacemit K1 SoC"
-url='https://github.com/bredos/linux-bredos'
+url='https://github.com/beryllium-org/linux-beryllium'
 arch=(riscv64)
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'uboot-tools' 'dtc')
 options=('!strip')
 _branch="k1-6.17.y"
 _srcname="linux-bredos-${_branch}"
-source=("${_srcname}.tar.gz::https://github.com/bredos/linux-bredos/archive/refs/heads/${_branch}.tar.gz"
+source=("${_srcname}.tar.gz::https://github.com/beryllium-org/linux-beryllium/archive/refs/heads/${_branch}.tar.gz"
         'config'
         'linux.preset')
 md5sums=('dd8aad580538065c238a07e5c4c94db5888b3a45ca35ded80991f028fd5784c77ee86683bf5a21ca20162ad84e06d1761379187939ecdb19595b8cce2bee30bc'
@@ -57,11 +57,10 @@ build() {
 
   echo > .scmversion
   echo > localversion
-  
-  
+
   sed -i 's|EXTRAVERSION =\(.*\)|EXTRAVERSION = -spacemit-k1|g' Makefile
   unset LDFLAGS
-  
+
   if [ "$cross_compile" = 1 ]; then
     cross_compile_setup
     make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE olddefconfig prepare
@@ -79,7 +78,7 @@ build() {
 _package() {
   pkgdesc="The Linux Kernel and modules"
   depends=('coreutils' 'kmod')
-  optdepends=('wireless-regdb: to set the correct wireless channels of your country' 'mkinitcpio>=0.7: To use mkinitcpio for initramfs generation' 'bredos-dracut: To use Dracut for initramfs generation')
+  optdepends=('wireless-regdb: to set the correct wireless channels of your country' 'mkinitcpio>=0.7: To use mkinitcpio for initramfs generation' 'dracut: To use Dracut for initramfs generation')
   provides=("linux-spacemit-k1=${pkgver}" "linux")
   backup=("etc/mkinitcpio.d/${_kernel}.preset")
 
