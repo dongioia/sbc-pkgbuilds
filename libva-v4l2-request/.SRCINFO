@@ -1,0 +1,22 @@
+pkgbase = libva-v4l2-request
+	pkgdesc = VA-API backend on top of the Linux V4L2 Stateless Request API (RK3588 VP9 fork)
+	pkgver = 1.0.0.r237.g3dab4cc
+	pkgrel = 1
+	url = https://github.com/dongioia/libva-v4l2-request
+	arch = aarch64
+	license = LGPL-2.1-or-later
+	license = MIT
+	makedepends = git
+	makedepends = meson
+	makedepends = ninja
+	makedepends = pkgconf
+	makedepends = linux-api-headers
+	depends = libva
+	depends = libdrm
+	depends = glibc
+	provides = libva-v4l2-request
+	conflicts = libva-v4l2-request-git
+	source = libva-v4l2-request::git+https://github.com/dongioia/libva-v4l2-request.git#commit=3dab4ccb4f37ef9140488227b402e28d805f23dc
+	b2sums = SKIP
+
+pkgname = libva-v4l2-request

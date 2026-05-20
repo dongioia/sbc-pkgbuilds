@@ -1,0 +1,49 @@
+# Maintainer: Francesco Saverio Pavone <pavone.lawyer@gmail.com>
+
+pkgname=libva-v4l2-request
+_commit=3dab4ccb4f37ef9140488227b402e28d805f23dc
+pkgver=1.0.0.r237.g3dab4cc
+pkgrel=1
+pkgdesc='VA-API backend on top of the Linux V4L2 Stateless Request API (RK3588 VP9 fork)'
+arch=(aarch64)
+url='https://github.com/dongioia/libva-v4l2-request'
+license=(LGPL-2.1-or-later MIT)
+depends=(
+  libva
+  libdrm
+  glibc
+)
+makedepends=(
+  git
+  meson
+  ninja
+  pkgconf
+  linux-api-headers
+)
+provides=(libva-v4l2-request)
+conflicts=(libva-v4l2-request-git)
+source=("${pkgname}::git+https://github.com/dongioia/libva-v4l2-request.git#commit=${_commit}")
+b2sums=('SKIP')
+
+pkgver() {
+  cd "${pkgname}"
+  printf '1.0.0.r%s.g%s' \
+    "$(git rev-list --count HEAD)" \
+    "$(git rev-parse --short=7 HEAD)"
+}
+
+build() {
+  cd "${pkgname}"
+  arch-meson . build \
+    --buildtype=release \
+    -Db_lto=true
+  ninja -C build
+}
+
+package() {
+  cd "${pkgname}"
+  DESTDIR="${pkgdir}" ninja -C build install
+  install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+  install -Dm644 COPYING.LGPL "${pkgdir}/usr/share/licenses/${pkgname}/COPYING.LGPL"
+  install -Dm644 COPYING.MIT "${pkgdir}/usr/share/licenses/${pkgname}/COPYING.MIT"
+}
